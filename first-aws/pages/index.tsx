@@ -1,7 +1,18 @@
 import Layout from '@/comps/layout'
+import Poster from '@/comps/poster'
+import API from '@/utils/api';
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
+
+  const [data , setData] = useState<any | null>(null); 
+
+  useEffect(() => {
+     API.get('posts').then((res) => {
+        setData(res.data.data); 
+     })
+  }, []);
   return (
     <>
       <Head>
@@ -10,8 +21,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/insta.ico" />
       </Head>
-      <Layout> 
-      <div className='flex flex-col w-100vw justify-center items-center text-green-500'>Uhmm</div>
+      <Layout>
+      <div className='flex flex-col w-100vw justify-center items-center'>
+         {data != null ? data.map((x: any , i: number) => {
+            return <Poster key={i} props={x}/>
+         }): <div>Loading...</div>}
+      </div>
       </Layout>
     </>
   )

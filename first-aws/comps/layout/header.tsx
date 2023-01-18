@@ -1,9 +1,18 @@
 import React from "react";
+import { FiHome , FiPlusSquare , FiHeart } from "react-icons/fi";
 
 const Header = () => {
+    
     return (
-        <div className="flex justify-center items-center">
-            Header!!!
+        <div className="flex justify-center items-center w-100vw mt-5">
+           <div className="mr-96"><img src="/insta.png" width={100} height={100}/></div>
+           <div className="flex flex-row justify-center items-center w-[215px] bg-[#FAFAFA] border-2 border-gray-500 mr-32 rounded-lg p-0.5"><img src="/search.png" width={12} height={12} className="mr-2"/><input placeholder="Search" className="text-sm text-[#8E8E8E] outline-none"/></div>
+           <div className="flex flex-row justify-center items-center"> 
+           <div className="ml-5"><FiHome size={24}/></div>
+           <div className="ml-5" onClick={() => window.location.href = '/post'}><FiPlusSquare size={24}/></div>
+           <div className="ml-5"><FiHeart size={24}/></div>
+           <img src="https://www.shutterstock.com/image-photo/surreal-concept-roll-world-dice-260nw-1356798002.jpg" className="rounded-full w-6 h-6 ml-5"/>
+           </div>
         </div>
     )
 }; 
