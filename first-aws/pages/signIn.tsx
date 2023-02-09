@@ -16,23 +16,19 @@ const SignIn = () => {
     const [name , setName] = useState<string>(''); 
     const [pwd, setPwd] = useState<string>(''); 
     
+    const userData = {Username: name, Password: pwd} , details = new AuthenticationDetails(userData); 
+    const cogUser = new CognitoUser({
+        Username: name, 
+        Pool: userPool,
+    }); 
+
     const authIt = async () => {
         try {
             if(name != '' && pwd != '') { 
             await new Promise((res , rej) => {
-                    const userData = {
-                        Username: name, 
-                        Password: pwd
-                    }
-                    const details = new AuthenticationDetails(userData); 
-                    const cogUser = new CognitoUser({
-                        Username: name, 
-                        Pool: userPool,
-                    })
-                    cogUser.authenticateUser(details, {
-                    onSuccess: result => res(result),
+                cogUser.authenticateUser(details, {
+                    onSuccess: result => {res(result), console.log(result)},
                     onFailure: err => rej(`Rejected: ${err}`),
-                    newPasswordRequired: () => console.log('no')
                     })
             })
           }; 

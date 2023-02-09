@@ -23,20 +23,23 @@ const SignUp = () => {
     
     const signUp = async () => {
         try {
-            if(name != '' && pwd != '') {
-                    userPool.signUp(name, pwd, attributeList, null as any , (err , res) => {
-                        if(err) {
-                           console.log(err); 
-                        }
-                        else{
-                           console.log(`Sth worked! DATA: ${res}`); 
-                        }
-                   }); 
-            }
+            return await new Promise((res, rej) => {
+                if(name != '' && pwd != '') {
+                        userPool.signUp(name, pwd, attributeList, null as any , (err , data) => {
+                            if(err) {
+                               rej(err); 
+                               console.log(err); 
+                            }
+                            else{
+                               console.log(`Sth worked! DATA: ${data}`);
+                               res(data); 
+                            }
+                       }); 
+                }
+            }); 
         } catch(err) {
             console.log(err);
         }
-      
     }; 
 
     return (
