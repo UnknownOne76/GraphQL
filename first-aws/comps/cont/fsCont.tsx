@@ -33,7 +33,8 @@ export const FsContextPrv = ({children}: Props) => {
             else {
                 console.log('User not logged in!'); 
                 setSt('User not logged in!'); 
-                rej('User not logged in!'); 
+                rej('User not logged in!');
+                return window.location.href = '/signIn' 
             }  
         }) 
     };

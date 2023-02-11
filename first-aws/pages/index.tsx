@@ -1,8 +1,10 @@
 import { FsContext } from '@/comps/cont/fsCont';
 import Layout from '@/comps/layout'
 import Poster from '@/comps/poster'
+import { awsAPI } from '@/utils/api';
 import { client } from '@/utils/aws';
 import { CompareFacesCommand } from '@aws-sdk/client-rekognition';
+import moment from 'moment';
 import Head from 'next/head'
 import { useContext, useState , useEffect, useRef} from 'react'
 import Webcam from "react-webcam";  
@@ -11,7 +13,7 @@ export default function Home() {
 
   const [data , setData] = useState<any | null>(null); 
   const [img , setImg] = useState<any | null>(null);
-  const fsCont = useContext(FsContext);
+  const fsCont = useContext(FsContext); 
 
   const videoConstraints = {
     width: 720,
@@ -44,6 +46,7 @@ export default function Home() {
 
   useEffect(() => {
     fsCont?.onStateChanged(); 
+    awsAPI.get('posts').then((res) => setData(res)); 
   }, [fsCont]) 
 
   return (
@@ -60,7 +63,9 @@ export default function Home() {
         <Webcam audio={false} ref={webcam} videoConstraints={videoConstraints} screenshotFormat="image/jpeg" /> 
         <button onClick={capture}>Capture photo</button>
         <button onClick={compareIt}>Compare face.</button>
-        <div>Users: </div>
+        <div>Comments: {data != null ? data?.data[0]?.comments?.L.map((x: any, i: number) => {
+           return <div key={i}>content: {x?.M?.cmt?.S} , when: {moment(x?.M?.when?.S).format('lll')}</div>
+        }) : ''}</div>
       </Layout>
     </>
   )
