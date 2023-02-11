@@ -1,15 +1,6 @@
 import { useState } from "react";
-import {
-	CognitoUserPool,
-	CognitoUserAttribute,
-	CognitoUser,
-} from 'amazon-cognito-identity-js';
-
-var poolData = {
-	UserPoolId: 'ap-northeast-2_RtKVTek59',
-	ClientId: '68km7r76940llp24pmtdsfq12q',
-};
-var userPool = new CognitoUserPool(poolData);
+import {CognitoUserAttribute} from 'amazon-cognito-identity-js';
+import { userPool } from "@/utils/aws";
 
 const SignUp = () => {
 

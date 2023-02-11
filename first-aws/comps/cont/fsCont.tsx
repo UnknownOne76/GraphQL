@@ -1,6 +1,7 @@
 import { CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { RekognitionClient } from "@aws-sdk/client-rekognition";
 import { createContext, useState , useEffect } from 'react';  
+import { userPool } from '@/utils/aws';
 
 interface Props {
     children?: React.ReactNode
@@ -16,9 +17,6 @@ export const FsContext = createContext<null | Context>({} as Context);
 
 
 export const FsContextPrv = ({children}: Props) => {
-
-    let poolData = { UserPoolId: 'ap-northeast-2_RtKVTek59',ClientId: '68km7r76940llp24pmtdsfq12q'};
-    const userPool = new CognitoUserPool(poolData); 
     const [st , setSt] = useState<string>('User not logged in!');
 
     const onStateChanged = async () => {
