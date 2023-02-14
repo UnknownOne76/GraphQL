@@ -37,6 +37,7 @@ const SignIn = () => {
               <input type={"password"} value={pwd} onChange={(e) => setPwd(e.target?.value)} className="bg-black text-green-500"/>
            </div>
            <button onClick={() => authIt()}>Sign In!</button>
+           <div onClick={() => window.location.href = '/signUp'} className="cursor-pointer">New One? {'->'} Sign Up.</div>
         </div>
     )
 }; 
