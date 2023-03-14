@@ -1,9 +1,9 @@
 import { FsContext } from '@/comps/cont/fsCont';
 import Layout from '@/comps/layout'
-import Poster from '@/comps/poster'
+// import Poster from '@/comps/poster'
 import { awsAPI } from '@/utils/api';
-import { client } from '@/utils/aws';
-import { CompareFacesCommand } from '@aws-sdk/client-rekognition';
+// import { client } from '@/utils/aws';
+// import { CompareFacesCommand } from '@aws-sdk/client-rekognition';
 import moment from 'moment';
 import Head from 'next/head'
 import { useContext, useState , useEffect, useRef} from 'react'
@@ -12,41 +12,45 @@ import Webcam from "react-webcam";
 export default function Home() {
 
   const [data , setData] = useState<any | null>(null); 
-  const [img , setImg] = useState<any | null>(null);
+  // const [img , setImg] = useState<any | null>(null);
   const fsCont = useContext(FsContext); 
 
-  const videoConstraints = {
-    width: 720,
-    height: 360,
-    facingMode: "user"
-  };
+  // const webcam = useRef<Webcam>(null);
 
-  const webcam = useRef<Webcam>(null);
-  const capture = () => {setImg(Buffer.from((webcam?.current?.getScreenshot() as string).replace(/^data:image\/\w+;base64,/, ''), 'base64'))}; 
+  const followIt = async({id , followId}: any) => {
+      await awsAPI.post('users/track' , {
+          userId: id, 
+          followId: followId, 
+          state: 'follow'
+      }).then(res => console.log(res));  
+  }; 
+  // const capture = () => {setImg(Buffer.from((webcam?.current?.getScreenshot() as string).replace(/^data:image\/\w+;base64,/, ''), 'base64'))}; 
 
-  const compareIt = async () => {
-    try {
-        const params = {
-          SourceImage: {
-            Bytes: img
-           },
-          TargetImage: {
-            S3Object: {
-             Bucket: 'fs-bucket01',
-             Name: 'face.jpeg'
-          }
-         },
-        };
-         const result = await client.send(new CompareFacesCommand(params)); 
-         setData(result?.FaceMatches);
-         } catch(err) {
-          console.log(err); 
-         };
-      }; 
+  // const compareIt = async () => {
+  //   try {
+  //       const params = {
+  //         SourceImage: {
+  //           Bytes: img
+  //          },
+  //         TargetImage: {
+  //           S3Object: {
+  //            Bucket: 'fs-bucket01',
+  //            Name: 'face.jpeg'
+  //         }
+  //        },
+  //       };
+  //        const result = await client.send(new CompareFacesCommand(params)); 
+  //        setData(result?.FaceMatches);
+  //        } catch(err) {
+  //         console.log(err); 
+  //        };
+  //     }; 
 
   useEffect(() => {
     fsCont?.onStateChanged(); 
-    awsAPI.get('posts').then((res) => setData(res)); 
+    awsAPI.get(`users/get/${fsCont?.usr?.pool_name?.S}`).then((res) => {
+        setData(res?.data);  
+    })  
   }, [fsCont]) 
 
   return (
@@ -58,14 +62,20 @@ export default function Home() {
         <link rel="icon" href="/insta.ico" />
       </Head>
       <Layout>
+        <div className='flex flex-col w-full justify-center items-center mt-10'> 
         <div>{fsCont?.st}</div>
-        <button onClick={() => fsCont?.signOut()}>Sign out</button>
-        <Webcam audio={false} ref={webcam} videoConstraints={videoConstraints} screenshotFormat="image/jpeg" /> 
-        <button onClick={capture}>Capture photo</button>
-        <button onClick={compareIt}>Compare face.</button>
-        <div>Comments: {data != null ? data?.data[0]?.comments?.L.map((x: any, i: number) => {
-           return <div key={i}>content: {x?.M?.cmt?.S} , when: {moment(x?.M?.when?.S).format('lll')}</div>
-        }) : ''}</div>
+        <div>Follow these users.</div>
+        <div className='flex flex-col justify-center items-center'>
+            {data != null ? data.map((x: any , i: number) => {
+               return <div key={i}>
+                   UserName: {x?.userName?.S}
+                   <img src={x?.pic?.S} width={50} height={50}/>
+                   <div>ID: {x?.id?.S}</div>
+                   <button onClick={() => followIt({id: x?.id?.S , followId: fsCont?.usr?.id.S})}>Follow</button>
+               </div>
+            }): <div>Awaiting</div>}
+        </div>
+        </div>
       </Layout>
     </>
   )

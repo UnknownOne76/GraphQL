@@ -1,3 +1,4 @@
+import { CognitoIdentityProvider } from "@aws-sdk/client-cognito-identity-provider";
 import { RekognitionClient } from "@aws-sdk/client-rekognition";
 import { CognitoUserPool } from "amazon-cognito-identity-js";
 
@@ -7,5 +8,5 @@ let poolData = {
 };
 
 export const userPool = new CognitoUserPool(poolData);
-
+export const cognitoClient = new CognitoIdentityProvider({ region: "ap-northeast-2", credentials: {accessKeyId: process.env.AWS_ACCESS_KEY as string, secretAccessKey: process.env.AWS_SECRET_KEY as string}});
 export const client = new RekognitionClient({region: 'ap-northeast-2', credentials: {accessKeyId: process.env.AWS_ACCESS_KEY as string, secretAccessKey: process.env.AWS_SECRET_KEY as string}});

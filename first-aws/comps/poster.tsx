@@ -6,7 +6,6 @@ import moment from 'moment';
 
 const Poster = ({props}: any) => {
     const {author , pic } = props;  
-    const [swp , setSwp] = useState<number>(1);
     
     return (
        <div className="flex flex-col w-100 justify-start mt-5">

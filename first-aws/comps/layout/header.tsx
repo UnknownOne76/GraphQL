@@ -1,8 +1,10 @@
-import React from "react";
+import Link from "next/link";
+import React, { useContext } from "react";
 import { FiHome , FiPlusSquare , FiHeart } from "react-icons/fi";
+import { FsContext } from "../cont/fsCont";
 
-const Header = () => {
-    
+const Header = () => {  
+    const fsCont = useContext(FsContext);   
     return (
         <div className="flex justify-center items-center w-100vw mt-5">
            <div className="mr-96"><img src="/insta.png" width={100} height={100}/></div>
@@ -11,7 +13,7 @@ const Header = () => {
            <div className="ml-5"><FiHome size={24}/></div>
            <div className="ml-5" onClick={() => window.location.href = '/post'}><FiPlusSquare size={24}/></div>
            <div className="ml-5"><FiHeart size={24}/></div>
-           <img src="https://www.shutterstock.com/image-photo/surreal-concept-roll-world-dice-260nw-1356798002.jpg" className="rounded-full w-6 h-6 ml-5"/>
+           <Link href={"/prof"}><img src={fsCont?.usr?.pic?.S != '' ? fsCont?.usr?.pic?.S : 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/800px-Anonymous_emblem.svg.png'} className="rounded-full w-6 h-6 ml-5"/></Link>
            </div>
         </div>
     )

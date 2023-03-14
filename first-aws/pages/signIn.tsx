@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {CognitoUser,AuthenticationDetails} from 'amazon-cognito-identity-js';
 import { userPool } from "@/utils/aws";
 
 const SignIn = () => {
     const [name , setName] = useState<string>(''); 
     const [pwd, setPwd] = useState<string>(''); 
-    
     const userData = {Username: name, Password: pwd} , details = new AuthenticationDetails(userData); 
     const cogUser = new CognitoUser({
         Username: name, 
@@ -17,15 +16,15 @@ const SignIn = () => {
             if(name != '' && pwd != '') { 
             await new Promise((res , rej) => {
                 cogUser.authenticateUser(details, {
-                    onSuccess: result => {res(result), console.log(result)},
+                    onSuccess: result => {res(result), console.log(result), window.localStorage.setItem('name' , name), setTimeout(() => {return window.location.href = '/'}, 1000)},
                     onFailure: err => rej(`Rejected: ${err}`),
-                    })
+                });
             })
           }; 
         } catch(err) {
             console.log(err); 
          }
-        }
+        };
 
     return (
         <div className="flex flex-col w-full justify-center items-center">
