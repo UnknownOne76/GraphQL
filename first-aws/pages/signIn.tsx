@@ -1,8 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {CognitoUser,AuthenticationDetails} from 'amazon-cognito-identity-js';
 import { userPool } from "@/utils/aws";
+import { FsContext } from "@/comps/cont/fsCont";
 
 const SignIn = () => {
+    const fsCont = useContext(FsContext); 
+    useEffect(() => {
+       fsCont?.onStateChanged() ? window.location.href = '/' : ''; 
+    }, [fsCont]); 
     const [name , setName] = useState<string>(''); 
     const [pwd, setPwd] = useState<string>(''); 
     const userData = {Username: name, Password: pwd} , details = new AuthenticationDetails(userData); 

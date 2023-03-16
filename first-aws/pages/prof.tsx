@@ -1,6 +1,7 @@
 import { FsContext } from "@/comps/cont/fsCont";
 import { awsAPI } from "@/utils/api";
 import { cognitoClient } from "@/utils/aws";
+import Link from "next/link";
 import { useContext, useEffect } from "react";
 
 export const userProf = () => {
@@ -36,8 +37,8 @@ export const userProf = () => {
             <div>Name: {fsCont?.usr?.userName?.S}</div>
             <div className="flex justify-center items-center">
             <div className="mr-5">Posts: {fsCont?.usr?.posts?.N}</div>
-            <div className="mr-5">Followers: {fsCont?.usr?.followers?.N}</div>
-            <div>Following: {fsCont?.usr?.following?.N}</div>
+            <Link href={"/followers"}><div className="mr-5">Followers: {fsCont?.usr?.followers?.N}</div></Link>
+            <Link href={"/followings"}><div>Following: {fsCont?.usr?.following?.N}</div></Link>
             </div>
             <button onClick={() => deleteAcc()}>Delete account</button>
             <button onClick={() => fsCont?.signOut()}>Sign out</button>
