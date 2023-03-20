@@ -53,7 +53,6 @@ export const FsContextPrv = ({children}: Props) => {
     };
 
     const signOut = () => {
-        const user = userPool.getCurrentUser();
         window.localStorage.removeItem('userData'); 
         user?.signOut();
         setSt('User not logged in!');  
