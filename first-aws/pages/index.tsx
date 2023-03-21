@@ -66,7 +66,7 @@ export default function Home() {
         <div>{fsCont?.st}</div>
         <div>Follow these users.</div>
         <div className='flex flex-col justify-center items-center'>
-            {data != null ? data.map((x: any , i: number) => {
+            {data != null && data?.length != 0 ? data.map((x: any , i: number) => {
                return <div key={i}>
                    UserName: {x?.userName?.S}
                    <img src={x?.pic?.S} width={50} height={50}/>

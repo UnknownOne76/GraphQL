@@ -26,7 +26,7 @@ const Post = () => {
                  title: title,
                  content: txt, 
                  img: img
-            }); 
+            }).then(() => console.log(`Posted! -> PostID: ${postId}`)); 
         }; 
     };
 
