@@ -20,8 +20,8 @@ export const NavUser = () => {
             <img src={dt?.pic?.S} className='w-24 h-24 rounded-full'/>
             <div>Posts: {dt?.posts?.N}</div>
             <div className='flex justify-center items-center'>
-            <div className='m-2'>Following: {dt?.following?.N}</div>
-            <div>Followers: {dt?.followers?.N}</div>
+            <div className='m-2 cursor-pointer' onClick={() => window.location.href = `/followings/spec/${dt?.id?.S}`}>Following: {dt?.following?.N}</div>
+            <div className='cursor-pointer' onClick={() => window.location.href = `/followers/spec/${dt?.id?.S}`}>Followers: {dt?.followers?.N}</div>
             </div>
         </div>
     )
