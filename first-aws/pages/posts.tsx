@@ -15,7 +15,7 @@ export const Post = () => {
     return (
         <div className="flex flex-col w-full justify-center items-center">
             {data != null ? data?.map((x: any, i: number) => {
-                return <Poster author={x?.userData?.M} poster={x?.url?.S} likes={x?.likes?.N} cmts={x?.comments?.N} when={x?.date?.S} topic={x?.content?.S} key={i}/>
+                return <Poster author={x?.userData?.M} poster={x?.url?.S} likes={x?.likes?.N} cmts={x?.comments?.N} when={x?.date?.S} topic={x?.content?.S} id={x?.postId?.S} key={i}/>
             }): <div>Awaiting.</div>}
         </div>
     )
